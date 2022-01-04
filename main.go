@@ -10,13 +10,26 @@ import (
 
 var reader *bufio.Reader
 
+//this is not a variable
+//it is a type for a variable
+type User struct {
+	UserName string
+	Age int
+	FavoriteNumber float64
+}
+
 func main(){
 	reader=bufio.NewReader(os.Stdin)
-	userName:= readString("What is your name?")
-	age:=readInt("How old are you?")
 
-	// fmt.Println("Your name is", userName,", and you are", age, "years old")
-	s:=fmt.Sprintf("Your name is %s and you are is %d years old.",userName,age)
+	var user User
+	user.UserName= readString("What is your name?")
+	user.Age=readInt("How old are you?")
+	user.FavoriteNumber = readFloat("What is your favorite number?")
+
+	s:=fmt.Sprintf("Your name is %s, your age is %d years old and your favorite number is %.2f",
+	user.UserName,
+	user.Age,
+	user.FavoriteNumber)
 	fmt.Println(s)
 }
 
@@ -56,5 +69,21 @@ func readInt(s string) int {
 			return num	
 		}
 	}
-	
+}
+
+	func readFloat(s string) float64 {
+	for {
+		fmt.Println(s)
+		prompt()
+		userInput, _ := reader.ReadString('\n')
+		userInput = strings.Replace(userInput,"\n","",-1)
+		
+		num, err:= strconv.ParseFloat(userInput,64)
+
+		if err != nil {
+			fmt.Println("Please enter a number")
+		} else {
+			return num	
+		}
+	}
 }
